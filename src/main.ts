@@ -10,8 +10,8 @@ async function bootstrap() {
 
   // config swagger api
   const config = new DocumentBuilder()
-    .setTitle('Nestjs API')
-    .setDescription('The Nestjs API API description')
+    .setTitle('Finace Planner')
+    .setDescription('The Finace Planner API description')
     .setVersion('1.0')
     .addTag('Auth')
     .addTag('Budgets')
@@ -27,7 +27,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document, {
-    customSiteTitle: 'Swagger | Nestjs API',
+    customSiteTitle: 'Swagger | Finace Planner',
   });
 
   // Configure port on Frontend access side

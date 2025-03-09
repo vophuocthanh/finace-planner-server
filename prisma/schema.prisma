@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                        String    @id @default(uuid())
+  email                     String    @unique
+  password                  String
+  phone                     String?
+  address                   String?
+  avatar                    String?
+  name                      String
+  date_of_birth             String?
+  country                   String?
+  createAt                  DateTime  @default(now())
+  updateAt                  DateTime? @updatedAt
+  confirmPassword           String?
+  roleId                    String?
+  verificationCode          String?
+  verificationCodeExpiresAt DateTime?
+  isVerified                Boolean   @default(false)
+  role                      Role?     @relation(fields: [roleId], references: [id])
+  points                    Int?      @default(0)
+
+  @@map("users")
+}
+
+model Role {
+  id    String @id @default(uuid())
+  name  String @unique
+  users User[]
+
+  @@map("roles")
+}

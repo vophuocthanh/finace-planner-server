@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@app/*": ["*"],
+      "@controllers/*": ["modules/*/controller.ts"],
+      "@services/*": ["modules/*/service.ts"],
+      "@modules/*": ["modules/*"],
+      "@auth/*": ["modules/auth/*"],
+      "@role/*": ["modules/role/*"],
+      "@user/*": ["modules/user/*"],
+      "@decorators/*": ["decorator/*"],
+      "@guards/*": ["guard/*"],
+      "@utils/*": ["utils/*"],
+      "@types/*": ["types/*"],
+      "@lib/*": ["lib/*"],
+      "@dto/*": ["modules/dto/*"],
+      "@templates/*": ["templates/*"]
+    }
+  }
+}

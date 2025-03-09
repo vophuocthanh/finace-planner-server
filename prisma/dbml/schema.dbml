@@ -6,6 +6,7 @@ Table users {
   id String [pk]
   email String [unique, not null]
   password String [not null]
+  confirmPassword String
   phone String
   address String
   avatar String

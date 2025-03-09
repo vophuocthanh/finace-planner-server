@@ -8,6 +8,13 @@ import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { RoleModule } from './modules/role/role.module';
 import { UserModule } from './modules/user/user.module';
+import { MonthliesModule } from './modules/monthlies/monthlies.module';
+import { CategoriesModule } from './modules/categories/categories.module';
+import { PersonalIncomesModule } from './modules/personal-incomes/personal-incomes.module';
+import { ExpensesModule } from './modules/expenses/expenses.module';
+import { SavingsModule } from './modules/savings/savings.module';
+import { InvestmentsModule } from './modules/investments/investments.module';
+import { BudgetsModule } from './modules/budgets/budgets.module';
 
 @Module({
   imports: [
@@ -21,6 +28,13 @@ import { UserModule } from './modules/user/user.module';
     AuthModule,
     UserModule,
     RoleModule,
+    MonthliesModule,
+    CategoriesModule,
+    PersonalIncomesModule,
+    ExpensesModule,
+    SavingsModule,
+    InvestmentsModule,
+    BudgetsModule,
   ],
   controllers: [AppController],
   providers: [

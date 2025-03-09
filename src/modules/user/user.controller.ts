@@ -1,7 +1,6 @@
-import {
-  Pagination,
-  PaginationParams,
-} from '@app/src/decorator/pagination.decorator';
+import { PaginationParams } from '@app/src/core/model/pagination-params';
+import { ApiTagController } from '@app/src/decorator/common.decorator';
+import { Pagination } from '@app/src/decorator/pagination.decorator';
 import { HandleAuthGuard } from '@app/src/modules/auth/guard/auth.guard';
 import { UserService } from '@app/src/modules/user/user.service';
 import {
@@ -18,7 +17,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { ApiCommonResponses } from 'src/decorator/api-common-responses.decorator';
 import { CommonPagination } from 'src/decorator/common-pagination.decorator';
@@ -30,8 +29,7 @@ import {
   UserPaginationResponseType,
 } from 'src/modules/user/dto/user.dto';
 
-@ApiBearerAuth()
-@ApiTags('user')
+@ApiTagController('User')
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}

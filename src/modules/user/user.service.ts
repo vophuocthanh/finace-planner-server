@@ -1,7 +1,5 @@
-import {
-  Pagination,
-  PaginationParams,
-} from '@app/src/decorator/pagination.decorator';
+import { PaginationParams } from '@app/src/core/model/pagination-params';
+import { Pagination } from '@app/src/decorator/pagination.decorator';
 import {
   BadRequestException,
   ForbiddenException,

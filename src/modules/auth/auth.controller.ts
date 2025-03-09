@@ -16,7 +16,7 @@ import { VerifyEmailDto } from 'src/modules/auth/dto/verify-code';
 import { HandleAuthGuard } from 'src/modules/auth/guard/auth.guard';
 
 @ApiBearerAuth()
-@ApiTags('auth')
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}

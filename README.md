@@ -75,7 +75,7 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-Open http://localhost:3001/api with your favorite browser to swagger.
+Open http://localhost:4040/api with your favorite browser to swagger.
 
 ---
 

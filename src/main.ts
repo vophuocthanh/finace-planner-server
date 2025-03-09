@@ -13,9 +13,16 @@ async function bootstrap() {
     .setTitle('Nestjs API')
     .setDescription('The Nestjs API API description')
     .setVersion('1.0')
-    .addTag('auth')
-    .addTag('user')
-    .addTag('role')
+    .addTag('Auth')
+    .addTag('Budgets')
+    .addTag('Categories')
+    .addTag('Expenses')
+    .addTag('User')
+    .addTag('Monthlies')
+    .addTag('Investments')
+    .addTag('Personal Incomes')
+    .addTag('Savings')
+    .addTag('Role')
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
@@ -31,7 +38,7 @@ async function bootstrap() {
   };
 
   app.enableCors(corsOptions);
-  await app.listen(3001);
+  await app.listen(4040);
 }
 
 bootstrap();

@@ -12,24 +12,29 @@ datasource db {
 }
 
 model User {
-  id                        String    @id @default(uuid())
-  email                     String    @unique
+  id                        String           @id @default(uuid())
+  email                     String           @unique
   password                  String
   phone                     String?
   address                   String?
   avatar                    String?
   name                      String
-  date_of_birth             String?
+  date_of_birth             DateTime?
   country                   String?
-  createAt                  DateTime  @default(now())
-  updateAt                  DateTime? @updatedAt
-  confirmPassword           String?
+  createAt                  DateTime         @default(now())
+  updateAt                  DateTime?        @updatedAt
   roleId                    String?
   verificationCode          String?
   verificationCodeExpiresAt DateTime?
-  isVerified                Boolean   @default(false)
-  role                      Role?     @relation(fields: [roleId], references: [id])
-  points                    Int?      @default(0)
+  isVerified                Boolean          @default(false)
+  role                      Role?            @relation(fields: [roleId], references: [id])
+  points                    Int?             @default(0)
+  personalIncomes           PersonalIncome[]
+  expenses                  Expense[]
+  savings                   Saving[]
+  investments               Investment[]
+  budgets                   Budget[]
+  monthlies                 Monthly[]
 
   @@map("users")
 }
@@ -40,4 +45,114 @@ model Role {
   users User[]
 
   @@map("roles")
+}
+
+model Monthly {
+  id              String           @id @default(uuid())
+  userId          String
+  nameMonth       String
+  createAt        DateTime         @default(now())
+  updateAt        DateTime?        @updatedAt
+  user            User             @relation(fields: [userId], references: [id])
+  personalIncomes PersonalIncome[]
+  expenses        Expense[]
+  savings         Saving[]
+  investments     Investment[]
+  budgets         Budget[]
+
+  @@map("monthlies")
+}
+
+// Bảng danh mục
+model Category {
+  id              String           @id @default(uuid())
+  name            String           @unique
+  type            String
+  personalIncomes PersonalIncome[]
+  expenses        Expense[]
+  Budget          Budget[]
+
+  @@map("categories")
+}
+
+// Bảng thu nhập cá nhân
+model PersonalIncome {
+  id          String    @id @default(uuid())
+  userId      String
+  categoryId  String
+  amount      Float
+  description String?
+  createAt    DateTime  @default(now())
+  updateAt    DateTime? @updatedAt
+  monthlyId   String
+  monthly     Monthly   @relation(fields: [monthlyId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+  category    Category  @relation(fields: [categoryId], references: [id])
+
+  @@map("personal_incomes")
+}
+
+// Bảng chi tiêu
+model Expense {
+  id          String    @id @default(uuid())
+  userId      String
+  categoryId  String
+  amount      Float
+  description String?
+  createAt    DateTime  @default(now())
+  updateAt    DateTime? @updatedAt
+  monthlyId   String
+  monthly     Monthly   @relation(fields: [monthlyId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+  category    Category  @relation(fields: [categoryId], references: [id])
+
+  @@map("expenses")
+}
+
+// Bảng tiết kiệm
+model Saving {
+  id        String    @id @default(uuid())
+  userId    String
+  amount    Float
+  goal      String? // Mục đích tiết kiệm
+  createAt  DateTime  @default(now())
+  updateAt  DateTime? @updatedAt
+  monthlyId String
+  monthly   Monthly   @relation(fields: [monthlyId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
+
+  @@map("savings")
+}
+
+// Bảng đầu tư
+model Investment {
+  id          String    @id @default(uuid())
+  userId      String
+  name        String
+  amount      Float
+  returnRate  Float? // Tỷ suất lợi nhuận
+  description String?
+  createAt    DateTime  @default(now())
+  updateAt    DateTime? @updatedAt
+  monthlyId   String
+  monthly     Monthly   @relation(fields: [monthlyId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+
+  @@map("investments")
+}
+
+// Bảng ngân sách
+model Budget {
+  id          String    @id @default(uuid())
+  userId      String
+  categoryId  String?
+  limitAmount Float
+  createAt    DateTime  @default(now())
+  updateAt    DateTime? @updatedAt
+  monthlyId   String
+  monthly     Monthly   @relation(fields: [monthlyId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+  category    Category? @relation(fields: [categoryId], references: [id])
+
+  @@map("budgets")
 }

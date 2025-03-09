@@ -10,17 +10,22 @@ Table users {
   address String
   avatar String
   name String [not null]
-  date_of_birth String
+  date_of_birth DateTime
   country String
   createAt DateTime [default: `now()`, not null]
   updateAt DateTime
-  confirmPassword String
   roleId String
   verificationCode String
   verificationCodeExpiresAt DateTime
   isVerified Boolean [not null, default: false]
   role roles
   points Int [default: 0]
+  personalIncomes personal_incomes [not null]
+  expenses expenses [not null]
+  savings savings [not null]
+  investments investments [not null]
+  budgets budgets [not null]
+  monthlies monthlies [not null]
 }
 
 Table roles {
@@ -29,4 +34,122 @@ Table roles {
   users users [not null]
 }
 
+Table monthlies {
+  id String [pk]
+  userId String [not null]
+  nameMonth String [not null]
+  createAt DateTime [default: `now()`, not null]
+  updateAt DateTime
+  user users [not null]
+  personalIncomes personal_incomes [not null]
+  expenses expenses [not null]
+  savings savings [not null]
+  investments investments [not null]
+  budgets budgets [not null]
+}
+
+Table categories {
+  id String [pk]
+  name String [unique, not null]
+  type String [not null]
+  personalIncomes personal_incomes [not null]
+  expenses expenses [not null]
+  Budget budgets [not null]
+}
+
+Table personal_incomes {
+  id String [pk]
+  userId String [not null]
+  categoryId String [not null]
+  amount Float [not null]
+  description String
+  createAt DateTime [default: `now()`, not null]
+  updateAt DateTime
+  monthlyId String [not null]
+  monthly monthlies [not null]
+  user users [not null]
+  category categories [not null]
+}
+
+Table expenses {
+  id String [pk]
+  userId String [not null]
+  categoryId String [not null]
+  amount Float [not null]
+  description String
+  createAt DateTime [default: `now()`, not null]
+  updateAt DateTime
+  monthlyId String [not null]
+  monthly monthlies [not null]
+  user users [not null]
+  category categories [not null]
+}
+
+Table savings {
+  id String [pk]
+  userId String [not null]
+  amount Float [not null]
+  goal String
+  createAt DateTime [default: `now()`, not null]
+  updateAt DateTime
+  monthlyId String [not null]
+  monthly monthlies [not null]
+  user users [not null]
+}
+
+Table investments {
+  id String [pk]
+  userId String [not null]
+  name String [not null]
+  amount Float [not null]
+  returnRate Float
+  description String
+  createAt DateTime [default: `now()`, not null]
+  updateAt DateTime
+  monthlyId String [not null]
+  monthly monthlies [not null]
+  user users [not null]
+}
+
+Table budgets {
+  id String [pk]
+  userId String [not null]
+  categoryId String
+  limitAmount Float [not null]
+  createAt DateTime [default: `now()`, not null]
+  updateAt DateTime
+  monthlyId String [not null]
+  monthly monthlies [not null]
+  user users [not null]
+  category categories
+}
+
 Ref: users.roleId > roles.id
+
+Ref: monthlies.userId > users.id
+
+Ref: personal_incomes.monthlyId > monthlies.id
+
+Ref: personal_incomes.userId > users.id
+
+Ref: personal_incomes.categoryId > categories.id
+
+Ref: expenses.monthlyId > monthlies.id
+
+Ref: expenses.userId > users.id
+
+Ref: expenses.categoryId > categories.id
+
+Ref: savings.monthlyId > monthlies.id
+
+Ref: savings.userId > users.id
+
+Ref: investments.monthlyId > monthlies.id
+
+Ref: investments.userId > users.id
+
+Ref: budgets.monthlyId > monthlies.id
+
+Ref: budgets.userId > users.id
+
+Ref: budgets.categoryId > categories.id

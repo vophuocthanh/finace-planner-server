@@ -27,6 +27,7 @@ Table users {
   investments investments [not null]
   budgets budgets [not null]
   monthlies monthlies [not null]
+  Yearly yearlies [not null]
 }
 
 Table roles {
@@ -35,13 +36,25 @@ Table roles {
   users users [not null]
 }
 
+Table yearlies {
+  id String [pk]
+  userId String [not null]
+  year Int [not null]
+  createAt DateTime [default: `now()`, not null]
+  updateAt DateTime
+  user users [not null]
+  monthlies monthlies [not null]
+}
+
 Table monthlies {
   id String [pk]
   userId String [not null]
+  yearId String [not null]
   nameMonth String [not null]
   createAt DateTime [default: `now()`, not null]
   updateAt DateTime
   user users [not null]
+  yearly yearlies [not null]
   personalIncomes personal_incomes [not null]
   expenses expenses [not null]
   savings savings [not null]
@@ -116,6 +129,7 @@ Table budgets {
   id String [pk]
   userId String [not null]
   categoryId String
+  name String
   limitAmount Float [not null]
   createAt DateTime [default: `now()`, not null]
   updateAt DateTime
@@ -132,7 +146,11 @@ Enum CategoryType {
 
 Ref: users.roleId > roles.id
 
+Ref: yearlies.userId > users.id
+
 Ref: monthlies.userId > users.id
+
+Ref: monthlies.yearId > yearlies.id
 
 Ref: personal_incomes.monthlyId > monthlies.id
 

@@ -5,12 +5,12 @@ import { ApiTagController } from '@app/src/decorator/common.decorator';
 import { CurrentUserId } from '@app/src/decorator/current-user-id.decorator';
 import { Pagination } from '@app/src/decorator/pagination.decorator';
 import { HandleAuthGuard } from '@app/src/modules/auth/guard/auth.guard';
-import { BudgetsService } from '@app/src/modules/budgets/budgets.service';
-import { BudgetsPaginationResponse } from '@app/src/modules/budgets/dto/budgets.dto';
 import {
-  CreateBudgetsDto,
-  UpdateBudgetsDto,
-} from '@app/src/modules/budgets/dto/create-budgets.dto';
+  CreateYearliesDto,
+  UpdateYearliesDto,
+} from '@app/src/modules/yearlies/dto/create-yearlies.dto';
+import { YearliesPaginationResponse } from '@app/src/modules/yearlies/dto/yearlies.dto';
+import { YearliesService } from '@app/src/modules/yearlies/yearlies.service';
 import {
   Body,
   Controller,
@@ -22,50 +22,50 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-@ApiTagController('Budgets')
-@Controller('budgets')
-export class BudgetsController {
-  constructor(private readonly budgetsService: BudgetsService) {}
+@ApiTagController('Year')
+@Controller('yearlies')
+export class YearliesController {
+  constructor(private readonly yearliesService: YearliesService) {}
 
   @CommonPagination()
-  @ApiCommonResponses('Lấy danh sách ngân sách')
+  @ApiCommonResponses('Lấy danh sách năm')
   @Get()
   async getAll(
     @Pagination() pagination: PaginationParams,
-  ): Promise<BudgetsPaginationResponse> {
-    return this.budgetsService.getAll(pagination);
+  ): Promise<YearliesPaginationResponse> {
+    return this.yearliesService.getAll(pagination);
   }
 
-  @ApiCommonResponses('Lấy chi tiết ngân sách')
+  @ApiCommonResponses('Lấy chi tiết năm')
   @Get(':id')
   async getDetail(@Param('id') id: string) {
-    return this.budgetsService.getById(id);
+    return this.yearliesService.getById(id);
   }
 
   @UseGuards(HandleAuthGuard)
-  @ApiCommonResponses('Tạo ngân sách')
+  @ApiCommonResponses('Tạo năm')
   @Post()
   async createManufactures(
-    @Body() data: CreateBudgetsDto,
+    @Body() data: CreateYearliesDto,
     @CurrentUserId() userId: string,
   ) {
-    return this.budgetsService.create(data, userId);
+    return this.yearliesService.create(data, userId);
   }
 
   @UseGuards(HandleAuthGuard)
-  @ApiCommonResponses('Cập nhật ngân sách')
+  @ApiCommonResponses('Cập nhật năm')
   @Put(':id')
   async updateManufactures(
     @Param('id') id: string,
-    @Body() data: UpdateBudgetsDto,
+    @Body() data: UpdateYearliesDto,
   ) {
-    return this.budgetsService.update(id, data);
+    return this.yearliesService.update(id, data);
   }
 
   @UseGuards(HandleAuthGuard)
-  @ApiCommonResponses('Xóa ngân sách')
+  @ApiCommonResponses('Xóa năm')
   @Delete(':id')
   async deleteManufactures(@Param('id') id: string) {
-    return this.budgetsService.delete(id);
+    return this.yearliesService.delete(id);
   }
 }

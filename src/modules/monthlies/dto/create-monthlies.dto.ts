@@ -6,6 +6,11 @@ export class CreateMothilesDto {
   @IsNotEmpty()
   @IsString()
   nameMonth: string;
+
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsString()
+  yearId: string;
 }
 
 export class UpdateMothilesDto extends CreateMothilesDto {}

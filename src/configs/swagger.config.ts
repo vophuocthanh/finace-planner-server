@@ -14,6 +14,7 @@ const API_TAGS = [
   'Personal Incomes',
   'Savings',
   'Role',
+  'Year',
 ];
 
 export const setupSwagger = (app: NestExpressApplication): void => {

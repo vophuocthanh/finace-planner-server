@@ -15,6 +15,7 @@ import { ExpensesModule } from './modules/expenses/expenses.module';
 import { SavingsModule } from './modules/savings/savings.module';
 import { InvestmentsModule } from './modules/investments/investments.module';
 import { BudgetsModule } from './modules/budgets/budgets.module';
+import { YearliesModule } from './modules/yearlies/yearlies.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { BudgetsModule } from './modules/budgets/budgets.module';
     SavingsModule,
     InvestmentsModule,
     BudgetsModule,
+    YearliesModule,
   ],
   controllers: [AppController],
   providers: [

@@ -36,6 +36,7 @@ model User {
   investments               Investment[]
   budgets                   Budget[]
   monthlies                 Monthly[]
+  Yearly                    Yearly[]
 
   @@map("users")
 }
@@ -48,13 +49,27 @@ model Role {
   @@map("roles")
 }
 
+model Yearly {
+  id        String    @id @default(uuid())
+  userId    String
+  year      Int
+  createAt  DateTime  @default(now())
+  updateAt  DateTime? @updatedAt
+  user      User      @relation(fields: [userId], references: [id])
+  monthlies Monthly[]
+
+  @@map("yearlies")
+}
+
 model Monthly {
   id              String           @id @default(uuid())
   userId          String
+  yearId          String
   nameMonth       String
   createAt        DateTime         @default(now())
   updateAt        DateTime?        @updatedAt
   user            User             @relation(fields: [userId], references: [id])
+  yearly          Yearly           @relation(fields: [yearId], references: [id])
   personalIncomes PersonalIncome[]
   expenses        Expense[]
   savings         Saving[]
@@ -152,6 +167,7 @@ model Budget {
   id          String    @id @default(uuid())
   userId      String
   categoryId  String?
+  name        String?
   limitAmount Float
   createAt    DateTime  @default(now())
   updateAt    DateTime? @updatedAt

@@ -53,7 +53,12 @@ export class MonthliesService {
   async create(data: CreateMothilesDto, userId: string) {
     return this.prismaService.monthly.create({
       data: {
-        ...data,
+        nameMonth: data.nameMonth,
+        yearly: {
+          connect: {
+            id: data.yearId,
+          },
+        },
         user: {
           connect: {
             id: userId,

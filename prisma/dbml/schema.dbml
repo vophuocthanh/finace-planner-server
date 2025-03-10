@@ -52,7 +52,7 @@ Table monthlies {
 Table categories {
   id String [pk]
   name String [unique, not null]
-  type String [not null]
+  type CategoryType [not null]
   personalIncomes personal_incomes [not null]
   expenses expenses [not null]
   Budget budgets [not null]
@@ -123,6 +123,11 @@ Table budgets {
   monthly monthlies [not null]
   user users [not null]
   category categories
+}
+
+Enum CategoryType {
+  INCOME
+  EXPENSE
 }
 
 Ref: users.roleId > roles.id

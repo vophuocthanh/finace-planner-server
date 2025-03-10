@@ -68,12 +68,17 @@ model Monthly {
 model Category {
   id              String           @id @default(uuid())
   name            String           @unique
-  type            String
+  type            CategoryType
   personalIncomes PersonalIncome[]
   expenses        Expense[]
   Budget          Budget[]
 
   @@map("categories")
+}
+
+enum CategoryType {
+  INCOME
+  EXPENSE
 }
 
 // Bảng thu nhập cá nhân

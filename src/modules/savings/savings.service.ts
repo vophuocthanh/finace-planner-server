@@ -95,16 +95,8 @@ export class SavingsService {
       data: {
         amount,
         goal,
-        user: {
-          connect: {
-            id: userId,
-          },
-        },
-        monthly: {
-          connect: {
-            id: monthlyId,
-          },
-        },
+        userId,
+        monthlyId,
       },
     });
   }

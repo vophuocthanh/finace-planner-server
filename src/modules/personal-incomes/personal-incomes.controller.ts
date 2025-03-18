@@ -31,6 +31,7 @@ export class PersonalIncomesController {
 
   @CommonPagination()
   @ApiCommonResponses('Lấy danh sách thu nhập cá nhân theo user')
+  @UseGuards(HandleAuthGuard)
   @Get()
   async getAll(
     @Pagination() pagination: PaginationParams,

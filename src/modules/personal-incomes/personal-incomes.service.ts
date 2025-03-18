@@ -26,7 +26,7 @@ export class PersonalIncomesService {
           },
         },
         {
-          userId: userId,
+          userId,
         },
       ],
     };

@@ -33,6 +33,24 @@ export class PersonalIncomesService {
 
     const personIncomes = await this.prismaService.personalIncome.findMany({
       where: whereAndWhere,
+      include: {
+        category: true,
+        monthly: {
+          select: {
+            id: true,
+            nameMonth: true,
+            yearly: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            phone: true,
+          },
+        },
+      },
       skip,
       take: itemsPerPage,
       orderBy: {

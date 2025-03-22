@@ -1,11 +1,13 @@
 import { PaginationParams } from '@app/src/core/model/pagination-params';
 import { Pagination } from '@app/src/decorator/pagination.decorator';
-import { PersonIncomesResponse } from '@app/src/modules/personal-incomes/dto/person-incomes.dto';
+import { mailService } from '@app/src/lib/mail.service';
 import {
   CreatePersonIncomeDto,
   UpdatePersonIncomeDto,
 } from '@app/src/modules/personal-incomes/dto/create-person-incomes.dto';
+import { PersonIncomesResponse } from '@app/src/modules/personal-incomes/dto/person-incomes.dto';
 import { PrismaService } from '@app/src/prisma.service';
+import { newIncomeEmailTemplate } from '@app/src/templates/emailSendPersonIncome';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -80,7 +82,8 @@ export class PersonalIncomesService {
 
   async create(data: CreatePersonIncomeDto, userId: string) {
     const { categoryId, monthlyId, amount, description } = data;
-    return this.prismaService.personalIncome.create({
+
+    const newIncome = await this.prismaService.personalIncome.create({
       data: {
         amount,
         description,
@@ -100,7 +103,34 @@ export class PersonalIncomesService {
           },
         },
       },
+      include: {
+        user: {
+          select: {
+            email: true,
+            name: true,
+          },
+        },
+        monthly: {
+          select: {
+            nameMonth: true,
+            yearly: true,
+          },
+        },
+      },
     });
+
+    await mailService.sendMail({
+      to: newIncome.user.email,
+      subject: '🎉 Thu nhập cá nhân mới đã được ghi nhận thành công!',
+      html: newIncomeEmailTemplate(
+        newIncome.user.name,
+        newIncome.user.email,
+        amount,
+        description,
+        newIncome.monthly.nameMonth,
+      ),
+    });
+    return newIncome;
   }
 
   async update(id: string, data: UpdatePersonIncomeDto) {

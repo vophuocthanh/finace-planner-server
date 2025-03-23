@@ -119,6 +119,10 @@ export class PersonalIncomesService {
       },
     });
 
+    const category = await this.prismaService.category.findFirst({
+      where: { id: categoryId },
+    });
+
     await mailService.sendMail({
       to: newIncome.user.email,
       subject: '🎉 Thu nhập cá nhân mới đã được ghi nhận thành công!',
@@ -126,8 +130,10 @@ export class PersonalIncomesService {
         newIncome.user.name,
         newIncome.user.email,
         amount,
-        description,
+        newIncome.description,
+        category.name,
         newIncome.monthly.nameMonth,
+        'thu nhập',
       ),
     });
     return newIncome;

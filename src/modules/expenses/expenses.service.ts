@@ -1,9 +1,13 @@
 import { PaginationParams } from '@app/src/core/model/pagination-params';
 import { Pagination } from '@app/src/decorator/pagination.decorator';
-import { UpdateExpensesDto } from '@app/src/modules/expenses/dto/create-expenses.dto';
-import { CreateExpensesDto } from '@app/src/modules/expenses/dto/create-expenses.dto';
+import { mailService } from '@app/src/lib/mail.service';
+import {
+  CreateExpensesDto,
+  UpdateExpensesDto,
+} from '@app/src/modules/expenses/dto/create-expenses.dto';
 import { ExpensesResponse } from '@app/src/modules/expenses/dto/expenses.dto';
 import { PrismaService } from '@app/src/prisma.service';
+import { newIncomeEmailTemplate } from '@app/src/templates/emailSendPersonIncome';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -88,9 +92,37 @@ export class ExpensesService {
 
   async create(data: CreateExpensesDto, userId: string) {
     const { monthlyId, amount, description, categoryId } = data;
-    return this.prismaService.expense.create({
+
+    const newExpense = await this.prismaService.expense.create({
       data: { monthlyId, amount, description, categoryId, userId },
     });
+
+    const user = await this.prismaService.user.findFirst({
+      where: { id: userId },
+    });
+
+    const monthly = await this.prismaService.monthly.findFirst({
+      where: { id: monthlyId },
+    });
+
+    const category = await this.prismaService.category.findFirst({
+      where: { id: categoryId },
+    });
+
+    await mailService.sendMail({
+      to: user.email,
+      subject: '🎉 Chi tiêu cá nhân mới đã được ghi nhận thành công!',
+      html: newIncomeEmailTemplate(
+        user.name,
+        user.email,
+        amount,
+        description,
+        category.name,
+        monthly.nameMonth,
+        'chi tiêu',
+      ),
+    });
+    return newExpense;
   }
 
   async update(id: string, data: UpdateExpensesDto) {

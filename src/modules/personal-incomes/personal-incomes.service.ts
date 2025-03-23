@@ -23,8 +23,13 @@ export class PersonalIncomesService {
     const whereAndWhere = {
       AND: [
         {
-          description: {
-            contains: search,
+          // description: {
+          //   contains: search,
+          // },
+          monthly: {
+            nameMonth: {
+              contains: search,
+            },
           },
         },
         {

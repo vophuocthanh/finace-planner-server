@@ -34,6 +34,15 @@ export class ExpensesService {
 
     const expenses = await this.prismaService.expense.findMany({
       where: whereAndWhere,
+      include: {
+        category: true,
+        monthly: {
+          select: {
+            nameMonth: true,
+            yearly: true,
+          },
+        },
+      },
       skip,
       take: itemsPerPage,
       orderBy: {

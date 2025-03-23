@@ -1,4 +1,3 @@
-import { PaginationParams } from '@app/src/core/model/pagination-params';
 import { ApiCommonResponses } from '@app/src/decorator/api-common-responses.decorator';
 import { CommonPagination } from '@app/src/decorator/common-pagination.decorator';
 import { ApiTagController } from '@app/src/decorator/common.decorator';
@@ -9,7 +8,10 @@ import {
   CreatePersonIncomeDto,
   UpdatePersonIncomeDto,
 } from '@app/src/modules/personal-incomes/dto/create-person-incomes.dto';
-import { PersonIncomesResponse } from '@app/src/modules/personal-incomes/dto/person-incomes.dto';
+import {
+  PersonIncomesFilter,
+  PersonIncomesResponse,
+} from '@app/src/modules/personal-incomes/dto/person-incomes.dto';
 import { PersonalIncomesService } from '@app/src/modules/personal-incomes/personal-incomes.service';
 import {
   Body,
@@ -21,6 +23,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
+import { ApiQuery } from '@nestjs/swagger';
 
 @ApiTagController('Personal Incomes')
 @Controller('personal-incomes')
@@ -31,10 +34,16 @@ export class PersonalIncomesController {
 
   @CommonPagination()
   @ApiCommonResponses('Lấy danh sách thu nhập cá nhân theo user')
+  @ApiQuery({
+    name: 'monthName',
+    required: false,
+    type: String,
+    description: 'Tên tháng',
+  })
   @UseGuards(HandleAuthGuard)
   @Get()
   async getAll(
-    @Pagination() pagination: PaginationParams,
+    @Pagination() pagination: PersonIncomesFilter,
     @CurrentUserId() userId: string,
   ): Promise<PersonIncomesResponse> {
     return this.personalIncomesService.getAll(pagination, userId);

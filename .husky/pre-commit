@@ -1,2 +1,3 @@
+#!/usr/bin/env sh
 echo "----- run here to check lint ----"
-npm check:all
+npm run check:all

@@ -21,7 +21,7 @@
     "check:type": "tsc --project tsconfig.json --noEmit",
     "check:lint": "eslint . --fix --quiet",
     "check:prettier": "prettier --write --ignore-unknown \"**/*\" ",
-    "check:all": "npm check:prettier && npm check:lint && npm check:type",
+    "check:all": "npm run check:prettier && npm run check:lint && npm run check:type",
     "prepare": "husky"
   },
   "dependencies": {

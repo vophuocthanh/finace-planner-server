@@ -178,3 +178,12 @@ model Budget {
 
   @@map("budgets")
 }
+
+model BlacklistedToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+
+  @@map("blacklisted_tokens")
+}

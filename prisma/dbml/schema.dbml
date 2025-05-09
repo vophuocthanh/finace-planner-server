@@ -139,6 +139,13 @@ Table budgets {
   category categories
 }
 
+Table blacklisted_tokens {
+  id String [pk]
+  token String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  expiresAt DateTime [not null]
+}
+
 Enum CategoryType {
   INCOME
   EXPENSE

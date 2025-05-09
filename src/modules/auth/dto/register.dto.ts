@@ -38,3 +38,10 @@ export class RegisterDto {
   @IsOptional()
   verificationCode?: string;
 }
+
+export class ResendVerificationEmailDto {
+  @ApiProperty()
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+}

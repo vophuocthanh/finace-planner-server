@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
-echo "----- run here to check lint ----"
-npm run check:all
+. "$(dirname -- "$0")/_/husky.sh"
+
+npx lint-staged

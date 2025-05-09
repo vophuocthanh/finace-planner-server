@@ -1,3 +1,4 @@
+import { LogoutDto } from '@app/src/modules/auth/dto/logout.dto';
 import { Body, Controller, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { User } from '@prisma/client';
@@ -11,7 +12,10 @@ import {
 } from 'src/modules/auth/dto/auth.dto';
 import { LoginDto } from 'src/modules/auth/dto/login.dto';
 import { RefreshTokenDto } from 'src/modules/auth/dto/refresh-token.dto';
-import { RegisterDto } from 'src/modules/auth/dto/register.dto';
+import {
+  RegisterDto,
+  ResendVerificationEmailDto,
+} from 'src/modules/auth/dto/register.dto';
 import { VerifyEmailDto } from 'src/modules/auth/dto/verify-code';
 import { HandleAuthGuard } from 'src/modules/auth/guard/auth.guard';
 
@@ -79,5 +83,17 @@ export class AuthController {
       password,
       confirm_password,
     );
+  }
+  @Post('resend-verification-email')
+  @ApiCommonResponses('Gửi lại mã xác thực tài khoản')
+  async resendVerificationEmail(@Body() body: ResendVerificationEmailDto) {
+    return this.authService.resendVerificationEmail(body.email);
+  }
+
+  @Post('logout')
+  @UseGuards(HandleAuthGuard)
+  @ApiCommonResponses('Đăng xuất')
+  async logout(@Body() body: LogoutDto) {
+    return this.authService.logout(body.refresh_token);
   }
 }

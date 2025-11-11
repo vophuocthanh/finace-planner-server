@@ -8,8 +8,21 @@ const API_PREFIX = 'api';
 const PORT = 4040;
 
 const CORS_OPTIONS: CorsOptions = {
-  origin: '*',
+  // Reflect the request origin to support credentials with "any" origin
+  origin: (origin, callback) => {
+    // Allow non-browser clients without an Origin header (e.g., curl/Postman)
+    if (!origin) {
+      return callback(null, true);
+    }
+    return callback(null, true);
+  },
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'Accept',
+    'X-Requested-With',
+  ],
   credentials: true,
 };
 

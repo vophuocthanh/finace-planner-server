@@ -1,3 +1,4 @@
+import { ForgotPasswordDto } from '@app/src/modules/auth/dto/auth.dto';
 import {
   HttpException,
   HttpStatus,
@@ -281,7 +282,7 @@ export class AuthService {
     );
   };
 
-  async forgotPassword(data: { email: string }) {
+  async forgotPassword(data: ForgotPasswordDto) {
     const user = await this.findUserByEmail(data.email);
     const access_token = await this.createToken(user.id);
     await this.sendResetPasswordEmail(data.email, access_token);

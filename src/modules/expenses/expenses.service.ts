@@ -118,19 +118,26 @@ export class ExpensesService {
       where: { id: categoryId },
     });
 
-    await mailService.sendMail({
-      to: user.email,
-      subject: '🎉 Chi tiêu cá nhân mới đã được ghi nhận thành công!',
-      html: newIncomeEmailTemplate(
-        user.name,
-        user.email,
-        amount,
-        description,
-        category.name,
-        monthly.nameMonth,
-        'chi tiêu',
-      ),
-    });
+    mailService
+      .sendMail({
+        to: user.email,
+        subject: '🎉 Chi tiêu cá nhân mới đã được ghi nhận thành công!',
+        html: newIncomeEmailTemplate(
+          user.name,
+          user.email,
+          amount,
+          description,
+          category.name,
+          monthly.nameMonth,
+          'chi tiêu',
+        ),
+      })
+      .then(() => {
+        console.log('Email sent successfully');
+      })
+      .catch((error) => {
+        console.error('Error sending email:', error);
+      });
     return newExpense;
   }
 

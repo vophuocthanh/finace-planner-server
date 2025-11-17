@@ -53,7 +53,7 @@ export class UpdateUserDto {
 }
 
 export interface UserFilterType {
-  items_per_page?: number;
+  itemsPerPage?: number;
   page?: number;
   search?: string;
 }

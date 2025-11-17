@@ -10,7 +10,7 @@ export function CommonPagination() {
       description: 'Page number',
     }),
     ApiQuery({
-      name: 'items_per_page',
+      name: 'itemsPerPage',
       required: false,
       type: Number,
       description: 'Number of items per page',

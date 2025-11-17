@@ -7,7 +7,7 @@ export const Pagination = createParamDecorator(
     const request = ctx.switchToHttp().getRequest();
     const filters = request.query;
 
-    const itemsPerPage = Number(filters.items_per_page) || numberConstants.TEN;
+    const itemsPerPage = Number(filters.itemsPerPage) || numberConstants.TEN;
     const page = Number(filters.page) || numberConstants.ONE;
     const search = filters.search || '';
     const skip =
